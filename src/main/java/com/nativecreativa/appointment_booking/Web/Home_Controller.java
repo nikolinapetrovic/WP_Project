@@ -8,6 +8,7 @@ import com.nativecreativa.appointment_booking.Service.MemberService;
 import com.sun.istack.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,10 +31,6 @@ public class Home_Controller {
         this.memberService = memberService;
     }
 
-    @GetMapping("/login")
-    public String getLoginPage(@NotNull Model model) {
-        return "login";
-    }
 
     @GetMapping("/register")
     public String getRegisterPage(@NotNull Model model) {
@@ -41,9 +38,13 @@ public class Home_Controller {
     }
 
     @PostMapping("/register")
-    public String register(@RequestParam String name,@RequestParam String surname,@RequestParam String username, @RequestParam String password) {
-        memberService.register(name,surname,username, password, Role.ROLE_USER);
-
+    public String register(@RequestParam String name,@RequestParam String surname,@RequestParam String username, @RequestParam String password,Model model) {
+        try {
+            memberService.register(name, surname, username, password, "ROLE_USER");
+        }catch (Exception e){
+            model.addAttribute("error",e.getMessage());
+            return "register";
+        }
         return "redirect:/login";
     }
 

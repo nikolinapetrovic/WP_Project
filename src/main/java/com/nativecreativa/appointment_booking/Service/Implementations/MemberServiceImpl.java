@@ -25,7 +25,7 @@ public class MemberServiceImpl implements MemberService {
 
 
     @Override
-    public Member register(String name, String surname, String username, String password, Role role) {
+    public Member register(String name, String surname, String username, String password, String role) throws IllegalArgumentException {
         if (username.isEmpty() || password.isEmpty()) {
             throw new IllegalArgumentException("Username and password must not be empty");
         }
@@ -33,14 +33,14 @@ public class MemberServiceImpl implements MemberService {
         if (memberRepository.findByUsername(username) != null) {
             throw new IllegalArgumentException("Username already exists");
         }
-        Member member =new Member(name,surname,username, passwordEncoder.encode(password),role);
+        Member member =new Member(name,surname,username, passwordEncoder.encode(password),Role.valueOf(role));
 
         return memberRepository.save(member);
     }
 
     @Override
-    public Member update(String name, String surname, String username, String password, Role role) {
-        Member member =new Member(name,surname,username, passwordEncoder.encode(password),role);
+    public Member update(String name, String surname, String username, String password, String role) {
+        Member member =new Member(name,surname,username, passwordEncoder.encode(password),Role.valueOf(role));
         return memberRepository.save(member);
     }
 

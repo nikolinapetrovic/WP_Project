@@ -20,6 +20,11 @@
     <input type="password" name="password" id="password" placeholder="Password">
 
     <button type="submit">Submit</button>
+
+    <div th:if="${error!=null}">
+        <p th:text="'Error: ' + ${error}"></p>
+    </div>
+
 </form>
 </body>
 </html>

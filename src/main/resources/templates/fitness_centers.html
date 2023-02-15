@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -86,10 +87,12 @@
                 </div>
                 <p th:text="${fitnesscenter.getDescription()}">Eos kasd et sea labore. Et sed amet magna elitr amet, stet et amet erat nonumy labore lorem ut eos, sed ut at tempor diam no. Kasd sit ea amet lorem et sea, ipsum sed dolor dolores sed dolore eirmod vero dolor sed kasd accusam</p>
                 <a class="btn btn-outline-primary mt-2 px-3" href="/book">Book an appointment<i class="fa fa-angle-right"></i></a>
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
                 <a class="btn btn-outline-primary mt-2 px-3" th:href="@{'/fitness-centers/manage/{id}'(id=${fitnesscenter.getId()})}">Edit<i class="fa fa-angle-right"></i></a>
                 <form method="POST" th:action="@{'/fitness-centers/delete/{id}'(id=${fitnesscenter.getId()})}">
                     <button type="submit">Delete</button>
                 </form>
+                </div>
 
             </div>
 
@@ -113,9 +116,12 @@
                     </li>
                   </ul>
                     <br>
+
+                    <div sec:authorize="hasRole('ADMIN')">
                     <a class="btn btn-outline-primary mt-2 px-3 pagination justify-content-center mb-4" href="/fitness-centers/manage">
                         Add new<i class="fa fa-angle-right">
                     </i></a>
+                        </div>
                 </nav>
             </div>
         </div>

@@ -1,7 +1,6 @@
 package com.nativecreativa.appointment_booking.Configuration;
 
 
-import com.nativecreativa.appointment_booking.Model.Member;
 import com.nativecreativa.appointment_booking.Service.MemberService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -9,8 +8,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 @Component
 public class AuthProvider implements AuthenticationProvider {
@@ -27,7 +29,15 @@ public class AuthProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
+        if(Objects.equals(username, "") || Objects.equals(password, "")){
+            throw new BadCredentialsException("Not enough information!");
+        }
+
         UserDetails user = memberService.loadUserByUsername(username);
+
+        if(user==null){
+            throw new UsernameNotFoundException("User does not exist");
+        }
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("Wrong password");

@@ -5,8 +5,8 @@ import com.nativecreativa.appointment_booking.Model.Role;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface MemberService extends UserDetailsService {
-    Member register(String name, String surname, String username, String password, Role role);
-    public Member update(String name, String surname, String username, String password, Role role);
+    Member register(String name, String surname, String username, String password, String role);
+    public Member update(String name, String surname, String username, String password, String role);
 
 
 }
